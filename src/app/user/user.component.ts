@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, Input, input, Output } from '@angular/core';
+import { Component, computed, EventEmitter, Input, input, Output, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,7 +14,9 @@ export class UserComponent {
   @Input({required : true}) id! : string;
   @Input({required : true}) avatar! : string;
   @Input({required : true}) name! : string;
-  @Output() select = new EventEmitter();
+  // Declare event to be used when a user clicks on the user box 
+  @Output() select = new EventEmitter<string>();
+  //select = output<string>(); // This event is on is Signal based approach
 
   get imagePath(){
     return 'assets/users/' + this.avatar;
