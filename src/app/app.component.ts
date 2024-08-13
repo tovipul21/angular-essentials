@@ -14,7 +14,7 @@ import { TasksComponent } from "./tasks/tasks.component";
 })
 export class AppComponent {
   users = DUMMY_USERS;
-  selectedUserId = "u1";
+  selectedUserId?:string;
 
   get selectedUser(){
     //return this.users.filter(task => task.id.includes("u1"));
