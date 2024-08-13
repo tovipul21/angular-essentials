@@ -11,11 +11,11 @@ import { USERS_TASK_LIST } from '../dummy-users';
 })
 
 export class TasksComponent {
-  @Input({required : true}) userName! : string;
+  @Input() userName? : string;
+  //@Input() userName : string | undefined;
 
   userTaskList = USERS_TASK_LIST;
-  //userTaskListByUser[] = null;
-  
+
   getSelectedUserTaskList(){
     //this.userTaskListByUser = USERS_TASK_LIST.filter(task => task.userId.includes("u1"));
     return USERS_TASK_LIST.filter(task => task.userId.includes("u1"));
