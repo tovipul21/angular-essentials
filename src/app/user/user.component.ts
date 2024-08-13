@@ -1,6 +1,18 @@
 import { Component, computed, EventEmitter, Input, input, Output, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+type User = {
+  id : string,
+  name : string,
+  avatar: string
+}
+
+interface IUser {
+  id : string,
+  name : string,
+  avatar: string
+}
+
 @Component({
   selector: 'app-user',
   standalone: true,
@@ -11,15 +23,17 @@ import { CommonModule } from '@angular/common';
 
 export class UserComponent {
   // This is an decorator (non Signal) approach
-  @Input({required : true}) id! : string;
-  @Input({required : true}) avatar! : string;
-  @Input({required : true}) name! : string;
+  // @Input({required : true}) id! : string;
+  // @Input({required : true}) avatar! : string;
+  // @Input({required : true}) name! : string;
+  @Input({required : true}) user! : User;
+
   // Declare event to be used when a user clicks on the user box 
   @Output() select = new EventEmitter<string>();
   //select = output<string>(); // This event is on is Signal based approach
 
   get imagePath(){
-    return 'assets/users/' + this.avatar;
+    return 'assets/users/' + this.user.avatar;
   }
 
   // This is a Signal based approach which is also an alternative way of using other then decorator approch
@@ -30,11 +44,11 @@ export class UserComponent {
   //     return 'assets/users/' + this.avatar()
   // });
 
-  get fullName(){
-    return this.name;
-  }
+  // get fullName(){
+  //   return this.user.name;
+  // }
 
   onSelectUser(){
-    this.select.emit(this.id);
+    this.select.emit(this.user.id);
   }
 }
