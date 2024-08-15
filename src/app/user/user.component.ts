@@ -1,17 +1,6 @@
 import { Component, computed, EventEmitter, Input, input, Output, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-type User = {
-  id : string,
-  name : string,
-  avatar: string
-}
-
-interface IUser {
-  id : string,
-  name : string,
-  avatar: string
-}
+import { IUser } from './user.model'
 
 @Component({
   selector: 'app-user',
@@ -26,7 +15,8 @@ export class UserComponent {
   // @Input({required : true}) id! : string;
   // @Input({required : true}) avatar! : string;
   // @Input({required : true}) name! : string;
-  @Input({required : true}) user! : User;
+  @Input({required : true}) user! : IUser;
+  @Input({required: true}) selected! : boolean;
 
   // Declare event to be used when a user clicks on the user box 
   @Output() select = new EventEmitter<string>();
