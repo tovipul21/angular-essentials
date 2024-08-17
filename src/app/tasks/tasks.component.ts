@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { DUMMY_USERS } from '../dummy-users';
 import { USERS_TASK_LIST } from '../dummy-users';
 import { TaskComponent } from "./task/task.component";
+import { NewTaskComponent } from './new-task/new-task.component';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [TaskComponent],
+  imports: [TaskComponent, NewTaskComponent],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
@@ -15,6 +16,8 @@ export class TasksComponent {
   @Input({required:true}) userName! : string;
   @Input({required:true}) userId!:string;
   //@Input() userName : string | undefined;
+
+  isAddingTask = false;
 
   userTaskList = USERS_TASK_LIST;
 
@@ -48,5 +51,13 @@ export class TasksComponent {
     console.log(userTasks.length);
     return userTasks;
     //return USERS_TASK_LIST.filter(task => task.userId.includes("u1"));
+  }
+
+  onCompleteTask(id:string){
+    this.userTaskListByUser = this.userTaskListByUser.filter((task) => task.id !== id);
+  }
+
+  onStartAddNewTask(){
+    this.isAddingTask = true;
   }
 }
