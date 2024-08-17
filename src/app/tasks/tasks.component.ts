@@ -46,9 +46,7 @@ export class TasksComponent {
   ];
 
   get selectedUserTasksByUser(){
-    console.log(this.userId);
     var userTasks = this.userTaskListByUser.filter((task) => task.userId === this.userId);
-    console.log(userTasks.length);
     return userTasks;
     //return USERS_TASK_LIST.filter(task => task.userId.includes("u1"));
   }
@@ -59,5 +57,9 @@ export class TasksComponent {
 
   onStartAddNewTask(){
     this.isAddingTask = true;
+  }
+
+  onCancelAddTask(){
+    this.isAddingTask = false;
   }
 }
