@@ -2,7 +2,8 @@ import { Component, Input } from '@angular/core';
 import { USERS_TASK_LIST } from '../dummy-users';
 import { TaskComponent } from "./task/task.component";
 import { NewTaskComponent } from './new-task/new-task.component';
-import { INewTaskData } from './new-task/new-task.model';
+import { type INewTaskData } from './new-task/new-task.model';
+import { TasksService } from './tasks.service';
 
 @Component({
   selector: 'app-tasks',
@@ -17,63 +18,38 @@ export class TasksComponent {
   @Input({required:true}) userId!:string;
   //@Input() userName : string | undefined;
 
+  private _tasksService: TasksService;
+
+  constructor(tasksService: TasksService){
+    this._tasksService = tasksService;
+  }
+
+  // This is short cut method of instantiating the TaskService class 
+  // constructor(private tasksService: TasksService){
+  //   //this._tasksService = tasksService;
+  // }
+
   isAddingTask = false;
 
   userTaskList = USERS_TASK_LIST;
 
-  userTaskListByUser = [
-    {
-      id: 't1',
-      userId: 'u1',
-      title: 'Master Angular',
-      summary: 'Learn all the basic and advanced features of Angular & how to apply them.',
-      dueDate: '2025-12-31',
-    },
-    {
-      id: 't2',
-      userId: 'u3',
-      title: 'Build first prototype',
-      summary: 'Build a first prototype of the online shop website',
-      dueDate: '2024-05-31',
-    },
-    {
-      id: 't3',
-      userId: 'u3',
-      title: 'Prepare issue template',
-      summary: 'Prepare and describe an issue template which will help with project management',
-      dueDate: '2024-06-15',
-    }
-  ];
-
-  get selectedUserTasksByUser(){
-    var userTasks = this.userTaskListByUser.filter((task) => task.userId === this.userId);
-    return userTasks;
-    //return USERS_TASK_LIST.filter(task => task.userId.includes("u1"));
+  get selectedUserTasks(){
+    return this._tasksService.getUserTasks(this.userId);
   }
 
-  onCompleteTask(id:string){
-    this.userTaskListByUser = this.userTaskListByUser.filter((task) => task.id !== id);
-  }
+  // onCompleteTask(id:string){
+  //   //this.userTaskListByUser = this.userTaskListByUser.filter((task) => task.id !== id);
+  // }
 
   onStartAddNewTask(){
     this.isAddingTask = true;
   }
 
-  onCancelAddTask(){
+  onCloseAddTask(){
     this.isAddingTask = false;
   }
 
   onSubmitAddTask(taskData: INewTaskData){
-    this.userTaskListByUser.push({
-      id: new Date().getTime().toString(),
-      userId: this.userId,
-      title: taskData.title,
-      summary: taskData.summary,
-      dueDate: taskData.dueDate
-    });
-
-    console.log(this.userTaskList);
-
     this.isAddingTask = false;
   }
 }

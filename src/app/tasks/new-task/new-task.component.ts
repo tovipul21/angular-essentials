@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
-import { INewTaskData } from '../new-task/new-task.model';
+import { TasksService } from '../tasks.service';
 
 @Component({
   selector: 'app-new-task',
@@ -9,25 +9,38 @@ import { INewTaskData } from '../new-task/new-task.model';
   templateUrl: './new-task.component.html',
   styleUrl: './new-task.component.css'
 })
-export class NewTaskComponent {
- 
-  @Output() cancel = new EventEmitter<void>();
-  @Output() submit = new EventEmitter<INewTaskData>();
+
+export class NewTaskComponent { 
+  @Input({required: true}) userId! : string;
+  @Output() close = new EventEmitter<void>();
+  //@Output() submit = new EventEmitter<INewTaskData>();
 
   enteredTitle = '';
   enterdSummary = '';
   enteredDate = '';
 
+  //This is an alternative dependency injection approach as compared to the constructor based approach
+  private _tasksService = inject(TasksService);
+  
+  //This is an alternative constructor based approach to access the injected TaskService service class. 
+  // private _tasksService: TasksService;
+
+  // constructor(tasksService: TasksService){
+  //   this._tasksService = tasksService;
+  // }
+
   onCancel(){
-    this.cancel.emit();
+    this.close.emit();
   }
 
   onFormSubmit(){
-    console.log('Forms submitted from add task form. Now emitting the event to parent.');
-    this.submit.emit({
+    this._tasksService.addTask({
       title: this.enteredTitle,
       summary: this.enterdSummary,
       dueDate: this.enteredDate
-    });
+    }, this.userId);
+
+    this.close.emit();
+
   }
 }
