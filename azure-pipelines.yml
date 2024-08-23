@@ -2,9 +2,8 @@
 # Build a Node.js project that uses Angular.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 pool:
-  vmImage: ubuntu-latest # Use the latest Ubentu image
+  vmImage: 'ubuntu-latest' # Use the latest Ubentu image
 
 variables:
   buildConfiguration: 'development'
@@ -17,7 +16,7 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    pathtoPublish: '$(Build.SourcesDirectory)/dist/essentials'
     artifactName: 'angular-app'
   displayName: 'Publish build artifacts'
 
