@@ -1,0 +1,27 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main #Define the branch to trigger the pepeline on
+
+pool:
+  vmImage: ubuntu-latest # Use the latest Ubentu image
+
+variables:
+  buildConfiguration: 'development'
+
+steps:
+- script: |
+    npm install
+    npm run build-dev
+  displayName: 'Build Angular App'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/dist/essentials'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  displayName: 'Publish build artifacts'
+
