@@ -17,8 +17,7 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'angular-app'
   displayName: 'Publish build artifacts'
 
